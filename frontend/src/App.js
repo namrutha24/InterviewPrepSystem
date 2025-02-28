@@ -3,25 +3,46 @@ import TestPage from './TestPage';
 import './App.css';
 
 function App() {
+  const [isLogin, setIsLogin] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState(''); // For Sign Up
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    setIsLoggedIn(true); // Simulate login success
+  const handleToggle = () => {
+    setIsLogin(!isLogin);
   };
 
-  if (isLoggedIn) {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (isLogin) {
+      alert(`Logging in with Email: ${email}`);
+    } else {
+      alert(`Signing up with Username: ${username}, Email: ${email}`);
+    }
+    setIsLogin(true); // Simulate login success after sign-up
+  };
+
+  if (isLogin) {
     return <TestPage />;
   }
 
   return (
     <div className="login-container">
-      <div className="login-card">
-        <h1 className="login-title">Interview Prep System</h1>
-        <h2 className="login-subtitle">Sign In</h2>
-        <form onSubmit={handleLogin} className="login-form">
+      <div className={`auth-card ${isLogin ? 'slide-up' : ''}`}>
+        <h1 className="auth-title">{isLogin ? 'Login' : 'Sign Up'}</h1>
+        <form onSubmit={handleSubmit} className="auth-form">
+          {!isLogin && (
+            <div className="input-group">
+              <label>Username</label>
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Enter your username"
+                required
+              />
+            </div>
+          )}
           <div className="input-group">
             <label>Email</label>
             <input
@@ -42,13 +63,13 @@ function App() {
               required
             />
           </div>
-          <button type="submit" className="login-button">
-            Login
+          <button type="submit" className="auth-button">
+            {isLogin ? 'Login' : 'Sign Up'}
           </button>
+          <p className="auth-toggle" onClick={handleToggle}>
+            {isLogin ? 'Need an account? Sign Up' : 'Already have an account? Login'}
+          </p>
         </form>
-        <p className="login-footer">
-          Don't have an account? <a href="#">Sign up</a>
-        </p>
       </div>
     </div>
   );
