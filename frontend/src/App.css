@@ -7,7 +7,7 @@
 
 body {
   font-family: 'Arial', sans-serif;
-  background: #4167a0;
+  background: #a460ae;
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -25,13 +25,13 @@ body {
 
 /* Authentication card styling */
 .auth-card {
-  background: linear-gradient(135deg, #550a83, #ab47bc);
+  background: linear-gradient(135deg, #6a1b9a, #ab47bc);
   padding: 30px;
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
-  color: rgb(229, 102, 102);
+  color: white;
   transition: transform 0.5s ease-in-out;
 }
 
@@ -91,8 +91,8 @@ body {
 /* Button styling */
 .auth-button {
   padding: 12px;
-  background: #ab47bc;
-  color: white;
+  background: #a63ab9;
+  color: rgb(231, 189, 220);
   border: none;
   border-radius: 8px;
   font-size: 16px;

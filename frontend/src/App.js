@@ -3,35 +3,36 @@ import TestPage from './TestPage';
 import './App.css';
 
 function App() {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLoginView, setIsLoginView] = useState(false); // Toggle between Sign Up and Login views
+  const [isLoggedIn, setIsLoggedIn] = useState(false);   // Track if user is logged in
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [username, setUsername] = useState(''); // For Sign Up
+  const [username, setUsername] = useState(''); // For Sign Up only
 
   const handleToggle = () => {
-    setIsLogin(!isLogin);
+    setIsLoginView(!isLoginView); // Switch views without logging in
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (isLogin) {
+    if (isLoginView) {
       alert(`Logging in with Email: ${email}`);
     } else {
       alert(`Signing up with Username: ${username}, Email: ${email}`);
     }
-    setIsLogin(true); // Simulate login success after sign-up
+    setIsLoggedIn(true); // Redirect to TestPage after submission
   };
 
-  if (isLogin) {
+  if (isLoggedIn) {
     return <TestPage />;
   }
 
   return (
     <div className="login-container">
-      <div className={`auth-card ${isLogin ? 'slide-up' : ''}`}>
-        <h1 className="auth-title">{isLogin ? 'Login' : 'Sign Up'}</h1>
+      <div className={`auth-card ${isLoginView ? 'slide-up' : ''}`}>
+        <h1 className="auth-title">{isLoginView ? 'Login' : 'Sign Up'}</h1>
         <form onSubmit={handleSubmit} className="auth-form">
-          {!isLogin && (
+          {!isLoginView && (
             <div className="input-group">
               <label>Username</label>
               <input
@@ -64,10 +65,10 @@ function App() {
             />
           </div>
           <button type="submit" className="auth-button">
-            {isLogin ? 'Login' : 'Sign Up'}
+            {isLoginView ? 'Login' : 'Create Account'}
           </button>
           <p className="auth-toggle" onClick={handleToggle}>
-            {isLogin ? 'Need an account? Sign Up' : 'Already have an account? Login'}
+            {isLoginView ? 'Need an account? Sign Up' : 'Already have an account? Login'}
           </p>
         </form>
       </div>
