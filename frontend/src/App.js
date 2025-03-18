@@ -1,26 +1,35 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import TestPage from './TestPage';
 import './App.css';
 
 function App() {
-  const [isLoginView, setIsLoginView] = useState(false); // Toggle between Sign Up and Login views
-  const [isLoggedIn, setIsLoggedIn] = useState(false);   // Track if user is logged in
+  const [isLoginView, setIsLoginView] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [username, setUsername] = useState(''); // For Sign Up only
+  const [username, setUsername] = useState('');
 
   const handleToggle = () => {
-    setIsLoginView(!isLoginView); // Switch views without logging in
+    setIsLoginView(!isLoginView);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (isLoginView) {
-      alert(`Logging in with Email: ${email}`);
-    } else {
-      alert(`Signing up with Username: ${username}, Email: ${email}`);
+    const url = isLoginView
+      ? 'http://localhost:5000/login'
+      : 'http://localhost:5000/signup';
+    const data = isLoginView
+      ? { email, password }
+      : { username, email, password };
+
+    try {
+      const response = await axios.post(url, data);
+      localStorage.setItem('token', response.data.token); // Store token
+      setIsLoggedIn(true); // Redirect to TestPage
+    } catch (error) {
+      alert(error.response?.data?.error || 'Something went wrong');
     }
-    setIsLoggedIn(true); // Redirect to TestPage after submission
   };
 
   if (isLoggedIn) {
